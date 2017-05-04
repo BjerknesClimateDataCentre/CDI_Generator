@@ -182,7 +182,7 @@ public abstract class PangaVistaImporter extends Importer {
 		boolean result = false;
 		
 		if (null != id) {
-			result= id.matches("[0-9]+");
+			result = id.matches("[0-9]+");
 		}
 		
 		return result;
@@ -413,25 +413,59 @@ public abstract class PangaVistaImporter extends Importer {
 	}
 	
 	/**
-	 * Evaluate an XPath in the metadata, and convert it to a double value. If the value is empty, defaults to zero.
+	 * Evaluate an XPath in the metadata, and convert it to a double value.
 	 * 
 	 * A set of XPaths can be supplied, which will be evaluated in turn until a match is found.
-	 * If no match is found, a zero value will be returned.
+	 * If no match is found, the supplied default value will be returned
 	 * 
+	 * @param tagName The tag name
+	 * @param defaultValue The default value
 	 * @param xPaths The XPath
-	 * @return The matching value, or zero if a value is not found
+	 * 
+	 * @return The matching value, or the default value if a value is not found
 	 * @throws InvalidLookupValueException If the value is not numeric
 	 */
-	protected double evaluateXPathDouble(String tagName, String... xPaths) throws InvalidLookupValueException {
+	protected double evaluateXPathDouble(String tagName, double defaultValue, String... xPaths) throws InvalidLookupValueException {
 
 		double result;
 		
 		String stringValue = evaluateXPath(tagName, xPaths);
 		if (null == stringValue || stringValue.trim().length() == 0) {
-			result = 0;
+			result = defaultValue;
 		} else {
 			try {
 				result = Double.parseDouble(evaluateXPath(tagName, xPaths));
+			} catch (NumberFormatException e) {
+				throw new InvalidLookupValueException(tagName, e);
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Evaluate an XPath in the metadata, and convert it to an int value.
+	 * 
+	 * A set of XPaths can be supplied, which will be evaluated in turn until a match is found.
+	 * If no match is found, the supplied default value will be returned
+	 * 
+	 * @param tagName The tag name
+	 * @param defaultValue The default value
+	 * @param xPaths The XPath
+	 * 
+	 * @return The matching value, or the default value if a value is not found
+	 * @throws InvalidLookupValueException If the value is not numeric
+	 */
+	protected int evaluateXPathInt(String tagName, int defaultValue, String... xPaths) throws InvalidLookupValueException {
+
+		int result;
+		
+		String stringValue = evaluateXPath(tagName, xPaths);
+		if (null == stringValue || stringValue.trim().length() == 0) {
+			result = defaultValue;
+		} else {
+			try {
+				result = Integer.parseInt(evaluateXPath(tagName, xPaths));
 			} catch (NumberFormatException e) {
 				throw new InvalidLookupValueException(tagName, e);
 			}
@@ -511,22 +545,22 @@ public abstract class PangaVistaImporter extends Importer {
 	
 	@Override
 	public double getWestLongitude() throws InvalidLookupValueException {
-		return evaluateXPathDouble("West Longitude", XPATH_WEST_LONGITUDE);
+		return evaluateXPathDouble("West Longitude", 0.0, XPATH_WEST_LONGITUDE);
 	}
 	
 	@Override
 	public double getEastLongitude() throws InvalidLookupValueException {
-		return evaluateXPathDouble("East Longitude", XPATH_EAST_LONGITUDE);
+		return evaluateXPathDouble("East Longitude", 0.0, XPATH_EAST_LONGITUDE);
 	}
 	
 	@Override
 	public double getSouthLatitude() throws InvalidLookupValueException {
-		return evaluateXPathDouble("South Latitude", XPATH_SOUTH_LATITUDE);
+		return evaluateXPathDouble("South Latitude", 0.0, XPATH_SOUTH_LATITUDE);
 	}
 	
 	@Override
 	public double getNorthLatitude() throws InvalidLookupValueException {
-		return evaluateXPathDouble("North Latitude", XPATH_NORTH_LATITUDE);
+		return evaluateXPathDouble("North Latitude", 0.0, XPATH_NORTH_LATITUDE);
 	}
 
 	@Override

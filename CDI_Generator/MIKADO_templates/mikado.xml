@@ -1,409 +1,443 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<automatic format="cdi19139" >
-   <bdd>
-      <className>com.mysql.jdbc.Driver</className>
-      <connectURL>jdbc:mysql://192.168.56.101/seadatanet</connectURL>
-      <user>seadatanet</user>
-      <password>seadatanet</password>
-   </bdd>
-   <queries>
-      <main>
-         <query>
-            <select>
-               <col>
-                  <var>:$</var>
-                  <sql>local_cdi_id</sql>
-               </col>
-            </select>
-            <from>cdi_summary</from>
-            <where />
-            <orderBy>local_cdi_id</orderBy>
-         </query>
-      </main>
-      <single>
-         <query>
-            <select>
-               <col>
-                  <var>var01</var>
-                  <sql>cdi_partner</sql>
-               </col>
-            </select>
-            <from>cdi_fixed_values</from>
-            <where>dataset IN (SELECT dataset FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var02</var>
-                  <sql>measuring_area_type</sql>
-               </col>
-            </select>
-            <from>cdi_platforms</from>
-            <where>id = (SELECT platform_id FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;) AND start_date &lt;= (SELECT cruise_start_date FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;) AND (end_date IS NULL OR end_date &gt;= (SELECT cruise_start_date FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)) </where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var04</var>
-                  <sql>dataset_name</sql>
-               </col>
-            </select>
-            <from>cdi_summary</from>
-            <where>local_cdi_id = &apos;:$&apos;</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var05</var>
-                  <sql>distinct dataset_id</sql>
-               </col>
-            </select>
-            <from>cdi_summary</from>
-            <where>local_cdi_id = &apos;:$&apos;</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var06</var>
-                  <sql>revision_date</sql>
-               </col>
-            </select>
-            <from>cdi_fixed_values</from>
-            <where>dataset = (SELECT dataset_name FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var08</var>
-                  <sql>abstract</sql>
-               </col>
-            </select>
-            <from>cdi_summary</from>
-            <where>local_cdi_id = &apos;:$&apos;</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var09</var>
-                  <sql>holding_centre</sql>
-               </col>
-            </select>
-            <from>cdi_fixed_values</from>
-            <where>dataset = (SELECT dataset_name FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var12</var>
-                  <sql>distinct platform_type</sql>
-               </col>
-            </select>
-            <from>cdi_platforms</from>
-            <where>id = (SELECT platform_id FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;) AND start_date &lt;= (SELECT cruise_start_date FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;) AND (end_date IS NULL OR end_date &gt;= (SELECT cruise_start_date FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;))</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var36</var>
-                  <sql>distributor</sql>
-               </col>
-            </select>
-            <from>cdi_fixed_values</from>
-            <where>dataset = (SELECT dataset_name FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var18</var>
-                  <sql />
-               </col>
-            </select>
-            <from />
-            <where />
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var15</var>
-                  <sql>distinct cruise_name</sql>
-               </col>
-            </select>
-            <from>cdi_summary</from>
-            <where>local_cdi_id = &apos;:$&apos;</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var16</var>
-                  <sql>cruise_name</sql>
-               </col>
-            </select>
-            <from>cdi_summary</from>
-            <where>local_cdi_id = &apos;:$&apos;</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var03</var>
-                  <sql>horizontal_datum</sql>
-               </col>
-            </select>
-            <from>cdi_fixed_values</from>
-            <where>dataset IN (SELECT dataset_name FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var17</var>
-                  <sql>cruise_start_date</sql>
-               </col>
-            </select>
-            <from>cdi_summary</from>
-            <where>local_cdi_id = &apos;:$&apos;</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var28</var>
-                  <sql>DATE_FORMAT(CONVERT_TZ(FROM_UNIXTIME(start_date), @@session.time_zone, &apos;+00:00&apos;), &apos;%Y-%m-%dT%H:%i:%S.000Z&apos;)</sql>
-               </col>
-            </select>
-            <from>cdi_summary</from>
-            <where>local_cdi_id = &apos;:$&apos;
+   <automatic format="cdi19139" >
+      <bdd>
+         <className>com.mysql.jdbc.Driver</className>
+         <connectURL>jdbc:mysql://192.168.56.101/seadatanet</connectURL>
+         <user>seadatanet</user>
+         <password>seadatanet</password>
+      </bdd>
+      <queries>
+         <main>
+            <query>
+               <select>
+                  <col>
+                     <var>:$</var>
+                     <sql>local_cdi_id</sql>
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where />
+               <orderBy>local_cdi_id</orderBy>
+            </query>
+         </main>
+         <single>
+            <query>
+               <select>
+                  <col>
+                     <var>var01</var>
+                     <sql>cdi_partner</sql>
+                  </col>
+               </select>
+               <from>cdi_fixed_values</from>
+               <where>dataset IN (SELECT dataset FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var02</var>
+                     <sql>measuring_area_type</sql>
+                  </col>
+               </select>
+               <from>cdi_platforms</from>
+               <where>id = (SELECT platform_id FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;) AND start_date &lt;= (SELECT cruise_start_date FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;) AND (end_date IS NULL OR end_date &gt;= (SELECT cruise_start_date FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)) </where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var04</var>
+                     <sql>dataset_name</sql>
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where>local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var05</var>
+                     <sql>distinct dataset_id</sql>
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where>local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var06</var>
+                     <sql>revision_date</sql>
+                  </col>
+               </select>
+               <from>cdi_fixed_values</from>
+               <where>dataset = (SELECT dataset_name FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var08</var>
+                     <sql>abstract</sql>
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where>local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var09</var>
+                     <sql>holding_centre</sql>
+                  </col>
+               </select>
+               <from>cdi_fixed_values</from>
+               <where>dataset = (SELECT dataset_name FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var12</var>
+                     <sql>distinct platform_type</sql>
+                  </col>
+               </select>
+               <from>cdi_platforms</from>
+               <where>id = (SELECT platform_id FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;) AND start_date &lt;= (SELECT cruise_start_date FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;) AND (end_date IS NULL OR end_date &gt;= (SELECT cruise_start_date FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;))</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var36</var>
+                     <sql>distributor</sql>
+                  </col>
+               </select>
+               <from>cdi_fixed_values</from>
+               <where>dataset = (SELECT dataset_name FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var18</var>
+                     <sql />
+                  </col>
+               </select>
+               <from />
+               <where />
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var15</var>
+                     <sql>distinct cruise_name</sql>
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where>local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var16</var>
+                     <sql>cruise_name</sql>
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where>local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var03</var>
+                     <sql>horizontal_datum</sql>
+                  </col>
+               </select>
+               <from>cdi_fixed_values</from>
+               <where>dataset IN (SELECT dataset_name FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var17</var>
+                     <sql>cruise_start_date</sql>
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where>local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var28</var>
+                     <sql>DATE_FORMAT(CONVERT_TZ(FROM_UNIXTIME(start_date), @@session.time_zone, &apos;+00:00&apos;), &apos;%Y-%m-%dT%H:%i:%S.000Z&apos;)</sql>
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where>local_cdi_id = &apos;:$&apos;
 
 </where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var29</var>
-                  <sql>DATE_FORMAT(CONVERT_TZ(FROM_UNIXTIME(end_date), @@session.time_zone, &apos;+00:00&apos;), &apos;%Y-%m-%dT%H:%i:%S.000Z&apos;)</sql>
-               </col>
-            </select>
-            <from>cdi_summary</from>
-            <where>local_cdi_id = &apos;:$&apos;</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var81</var>
-                  <sql />
-               </col>
-            </select>
-            <from>cdi_summary</from>
-            <where>local_cdi_id = &apos;:$&apos;</where>
-            <orderBy />
-         </query>
-      </single>
-      <multiFixed>
-         <query>
-            <select>
-               <col>
-                  <var>var07</var>
-                  <sql>originator</sql>
-               </col>
-            </select>
-            <from>cdi_platforms</from>
-            <where>id = (SELECT platform_id FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var10</var>
-                  <sql>parameter</sql>
-               </col>
-            </select>
-            <from>cdi_parameters</from>
-            <where>dataset = (SELECT dataset_name FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var11</var>
-                  <sql />
-               </col>
-            </select>
-            <from />
-            <where />
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var13</var>
-                  <sql />
-               </col>
-            </select>
-            <from />
-            <where />
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var14</var>
-                  <sql>access_restriction</sql>
-               </col>
-            </select>
-            <from>cdi_fixed_values</from>
-            <where>dataset = (SELECT dataset_name FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var24</var>
-                  <sql>west_longitude</sql>
-               </col>
-               <col>
-                  <var>var25</var>
-                  <sql>east_longitude</sql>
-               </col>
-               <col>
-                  <var>var26</var>
-                  <sql>south_latitude</sql>
-               </col>
-               <col>
-                  <var>var27</var>
-                  <sql>north_latitude</sql>
-               </col>
-            </select>
-            <from>cdi_summary</from>
-            <where>local_cdi_id = &apos;:$&apos;</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var37</var>
-                  <sql>format_name</sql>
-               </col>
-               <col>
-                  <var>var38</var>
-                  <sql>format_version</sql>
-               </col>
-            </select>
-            <from>cdi_fixed_values</from>
-            <where>dataset = (select dataset_name from cdi_summary where local_cdi_id = &apos;:$&apos;)</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var39</var>
-                  <sql>distribution_data_size</sql>
-               </col>
-               <col>
-                  <var>var40</var>
-                  <sql>doi_url</sql>
-               </col>
-               <col>
-                  <var>var41</var>
-                  <sql>doi</sql>
-               </col>
-               <col>
-                  <var>var42</var>
-                  <sql>&apos;URL&apos;</sql>
-               </col>
-               <col>
-                  <var>var43</var>
-                  <sql>&apos;downloadRegistration&apos;</sql>
-               </col>
-            </select>
-            <from>cdi_summary</from>
-            <where>local_cdi_id = &apos;:$&apos;</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var70</var>
-                  <sql />
-               </col>
-               <col>
-                  <var>var72</var>
-                  <sql />
-               </col>
-               <col>
-                  <var>var73</var>
-                  <sql />
-               </col>
-            </select>
-            <from />
-            <where />
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var95</var>
-                  <sql>qc_name</sql>
-               </col>
-               <col>
-                  <var>var96</var>
-                  <sql>qc_date</sql>
-               </col>
-               <col>
-                  <var>var97</var>
-                  <sql>qc_comment</sql>
-               </col>
-               <col>
-                  <var>var98</var>
-                  <sql>1</sql>
-               </col>
-            </select>
-            <from>cdi_fixed_values</from>
-            <where>dataset = (select dataset_name from cdi_summary where local_cdi_id = &apos;:$&apos;)</where>
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var60</var>
-                  <sql />
-               </col>
-               <col>
-                  <var>var62</var>
-                  <sql />
-               </col>
-               <col>
-                  <var>var63</var>
-                  <sql />
-               </col>
-            </select>
-            <from />
-            <where />
-            <orderBy />
-         </query>
-         <query>
-            <select>
-               <col>
-                  <var>var90</var>
-                  <sql />
-               </col>
-            </select>
-            <from>cdi_summary</from>
-            <where>local_cdi_id = &apos;:$&apos;</where>
-            <orderBy />
-         </query>
-      </multiFixed>
-   </queries>
-</automatic>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var29</var>
+                     <sql>DATE_FORMAT(CONVERT_TZ(FROM_UNIXTIME(end_date), @@session.time_zone, &apos;+00:00&apos;), &apos;%Y-%m-%dT%H:%i:%S.000Z&apos;)</sql>
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where>local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var81</var>
+                     <sql />
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where>local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var30</var>
+                     <sql>min_depth</sql>
+                  </col>
+               </select>
+               <from>cdi_summary
+</from>
+               <where>local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var31</var>
+                     <sql>max_depth</sql>
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where>local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var34</var>
+                     <sql>&apos;D08&apos;</sql>
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where>local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+         </single>
+         <multiFixed>
+            <query>
+               <select>
+                  <col>
+                     <var>var07</var>
+                     <sql>originator</sql>
+                  </col>
+               </select>
+               <from>cdi_platforms</from>
+               <where>id = (SELECT platform_id FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var10</var>
+                     <sql>parameter</sql>
+                  </col>
+               </select>
+               <from>cdi_parameters</from>
+               <where>dataset = (SELECT dataset_name FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var11</var>
+                     <sql />
+                  </col>
+               </select>
+               <from />
+               <where />
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var13</var>
+                     <sql />
+                  </col>
+               </select>
+               <from />
+               <where />
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var14</var>
+                     <sql>access_restriction</sql>
+                  </col>
+               </select>
+               <from>cdi_fixed_values</from>
+               <where>dataset = (SELECT dataset_name FROM cdi_summary WHERE local_cdi_id = &apos;:$&apos;)</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var24</var>
+                     <sql>west_longitude</sql>
+                  </col>
+                  <col>
+                     <var>var25</var>
+                     <sql>east_longitude</sql>
+                  </col>
+                  <col>
+                     <var>var26</var>
+                     <sql>south_latitude</sql>
+                  </col>
+                  <col>
+                     <var>var27</var>
+                     <sql>north_latitude</sql>
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where>local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var37</var>
+                     <sql>format_name</sql>
+                  </col>
+                  <col>
+                     <var>var38</var>
+                     <sql>format_version</sql>
+                  </col>
+               </select>
+               <from>cdi_fixed_values</from>
+               <where>dataset = (select dataset_name from cdi_summary where local_cdi_id = &apos;:$&apos;)</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var39</var>
+                     <sql>distribution_data_size</sql>
+                  </col>
+                  <col>
+                     <var>var40</var>
+                     <sql>doi_url</sql>
+                  </col>
+                  <col>
+                     <var>var41</var>
+                     <sql>doi</sql>
+                  </col>
+                  <col>
+                     <var>var42</var>
+                     <sql>&apos;URL&apos;</sql>
+                  </col>
+                  <col>
+                     <var>var43</var>
+                     <sql>&apos;download&apos;</sql>
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where>local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var70</var>
+                     <sql />
+                  </col>
+                  <col>
+                     <var>var72</var>
+                     <sql />
+                  </col>
+                  <col>
+                     <var>var73</var>
+                     <sql />
+                  </col>
+               </select>
+               <from />
+               <where />
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var95</var>
+                     <sql>cdi_fixed_values.qc_name</sql>
+                  </col>
+                  <col>
+                     <var>var96</var>
+                     <sql>cdi_fixed_values.qc_date</sql>
+                  </col>
+                  <col>
+                     <var>var97</var>
+                     <sql>cdi_summary.qc_comment</sql>
+                  </col>
+                  <col>
+                     <var>var98</var>
+                     <sql>1</sql>
+                  </col>
+               </select>
+               <from>cdi_summary INNER JOIN cdi_fixed_values ON cdi_summary.dataset_name = cdi_fixed_values.dataset</from>
+               <where>cdi_summary.local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var60</var>
+                     <sql />
+                  </col>
+                  <col>
+                     <var>var62</var>
+                     <sql />
+                  </col>
+                  <col>
+                     <var>var63</var>
+                     <sql />
+                  </col>
+               </select>
+               <from />
+               <where />
+               <orderBy />
+            </query>
+            <query>
+               <select>
+                  <col>
+                     <var>var90</var>
+                     <sql />
+                  </col>
+               </select>
+               <from>cdi_summary</from>
+               <where>local_cdi_id = &apos;:$&apos;</where>
+               <orderBy />
+            </query>
+         </multiFixed>
+      </queries>
+   </automatic>

@@ -172,16 +172,15 @@
       <ParameterModel>
         <conversionFormula>x*1</conversionFormula>
         <inputDefault>-999.999</inputDefault>
-        <LineFragment firstCharOffset="60" lastCharOffset="67"/>
-        <Flag firstCharOffset="80" lastCharOffset="80"/>
-        <Parameter code="PCO2">
-          <fullName>Partial pressure (pCO2) and fugacity (fCO2) of carbon dioxide in the water column</fullName>
-          <unit>Microatmospheres</unit>
-          <unitCode>UATM</unitCode>
+        <LineFragment firstCharOffset="60" lastCharOffset="66"/>
+        <Parameter code="PSAL">
+          <fullName>Salinity of the water column</fullName>
+          <unit>Dimensionless</unit>
+          <unitCode>UUUU</unitCode>
           <default></default>
-          <format>%+7.3f</format>
-          <CodeP011>FCO2EQTX</CodeP011>
-          <NameP011>Fugacity of carbon dioxide {fCO2 CAS 124-38-9} in the water body by equilibration with air, drying and constant temperature non-dispersive infra-red gas analysis and computation from pCO2 corrected to 1 bar at 100% humidity</NameP011>
+          <format>%+6.3f</format>
+          <CodeP011>PSLTZZ01</CodeP011>
+          <NameP011>Practical salinity of the water body</NameP011>
           <IsP011>true</IsP011>
           <instrument></instrument>
           <instrumentCode></instrumentCode>
@@ -190,15 +189,16 @@
       <ParameterModel>
         <conversionFormula>x*1</conversionFormula>
         <inputDefault>-999.999</inputDefault>
-        <LineFragment firstCharOffset="69" lastCharOffset="77"/>
-        <Parameter code="CAPH">
-          <fullName>Air pressure</fullName>
-          <unit>Hectopascals</unit>
-          <unitCode>HPAX</unitCode>
+        <LineFragment firstCharOffset="68" lastCharOffset="75"/>
+        <Flag firstCharOffset="78" lastCharOffset="78"/>
+        <Parameter code="PCO2">
+          <fullName>Partial pressure (pCO2) and fugacity (fCO2) of carbon dioxide in the water column</fullName>
+          <unit>Microatmospheres</unit>
+          <unitCode>UATM</unitCode>
           <default></default>
-          <format>%+8.3f</format>
-          <CodeP011>CAPHZZ01</CodeP011>
-          <NameP011>Pressure (measured variable) exerted by the atmosphere</NameP011>
+          <format>%+7.3f</format>
+          <CodeP011>FCO2EQTX</CodeP011>
+          <NameP011>Fugacity of carbon dioxide {fCO2 CAS 124-38-9} in the water body by equilibration with air, drying and constant temperature non-dispersive infra-red gas analysis and computation from pCO2 corrected to 1 bar at 100% humidity</NameP011>
           <IsP011>true</IsP011>
           <instrument></instrument>
           <instrumentCode></instrumentCode>

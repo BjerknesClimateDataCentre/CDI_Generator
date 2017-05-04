@@ -8,7 +8,9 @@ import java.util.regex.Pattern;
 
 import no.bcdc.cdigenerator.Config;
 import no.bcdc.cdigenerator.importers.ColumnPaddingSpec;
+import no.bcdc.cdigenerator.importers.UsedColumns;
 import no.bcdc.cdigenerator.importers.ImporterException;
+import no.bcdc.cdigenerator.importers.InvalidLookupValueException;
 import no.bcdc.cdigenerator.importers.NemoModel;
 import no.bcdc.cdigenerator.importers.ValueLookupException;
 import no.bcdc.cdigenerator.importers.PaddingException;
@@ -22,9 +24,14 @@ public class SocatV3Pangaea extends PangaVistaImporter {
 	private static final String XPATH_EXPOCODE = "/MetaData/event/label";
 	
 	/**
-	 * The XPath for the sensor depth
+	 * The XPath for the minimum depth
 	 */
-	private static final String XPATH_SENSOR_DEPTH = "/MetaData/extent/elevation/min";
+	private static final String XPATH_MIN_DEPTH = "/MetaData/extent/elevation/min";
+
+	/**
+	 * The XPath for the minimum depth
+	 */
+	private static final String XPATH_MAX_DEPTH = "/MetaData/extent/elevation/max";
 	
 	/**
 	 * The XPath for the documentation URL
@@ -32,9 +39,14 @@ public class SocatV3Pangaea extends PangaVistaImporter {
 	private static final String XPATH_DOCUMENTATION_URL = "/MetaData/reference[@relationType=\"Other version\"]/URI";
 	
 	/**
+	 * The XPath for the comment
+	 */
+	private static final String XPATH_COMMENT = "/MetaData/comment";
+	
+	/**
 	 * The default sensor depth
 	 */
-	private static final String DEFAULT_SENSOR_DEPTH = "5";
+	private static final double DEFAULT_SENSOR_DEPTH = 5.0;
 	
 	/**
 	 * The name of the Date/Time column
@@ -158,18 +170,31 @@ public class SocatV3Pangaea extends PangaVistaImporter {
 	}
 	
 	/**
-	 * Get the sensor depth. First try looking it up in the metadata.
+	 * Get the minimum measurement depth. First try looking it up in the metadata.
 	 * If it is not present, use the default value.
 	 * 
 	 * @return The sensor depth
 	 */
-	private String getSensorDepth() {
-		String sensorDepth = evaluateXPath("SENSOR_DEPTH", XPATH_SENSOR_DEPTH);
-		if (null == sensorDepth) {
-			sensorDepth = DEFAULT_SENSOR_DEPTH;
+	public double getMinDepth() throws ImporterException {
+		try {
+			return evaluateXPathDouble("Min Depth", DEFAULT_SENSOR_DEPTH, XPATH_MIN_DEPTH);
+		} catch (InvalidLookupValueException e) {
+			throw new ImporterException("Error looking up minimum depth", e);
 		}
-		
-		return sensorDepth;
+	}
+	
+	/**
+	 * Get the maximum measurement depth. First try looking it up in the metadata.
+	 * If it is not present, use the default value.
+	 * 
+	 * @return The sensor depth
+	 */
+	public double getMaxDepth() throws ImporterException {
+		try {
+			return evaluateXPathDouble("Max Depth", DEFAULT_SENSOR_DEPTH, XPATH_MAX_DEPTH);
+		} catch (InvalidLookupValueException e) {
+			throw new ImporterException("Error looking up minimum depth", e);
+		}
 	}
 	
 	@Override
@@ -191,7 +216,7 @@ public class SocatV3Pangaea extends PangaVistaImporter {
 			break;
 		}
 		case "SENSOR_DEPTH": {
-			tagValue = getSensorDepth();
+			tagValue = String.valueOf(getMinDepth());
 			break;
 		}
 		default: {
@@ -329,44 +354,44 @@ public class SocatV3Pangaea extends PangaVistaImporter {
 	}
 
 	@Override
-	protected List<Integer> getColumnsToUse(List<String> columnNames) throws ImporterException {
+	protected UsedColumns getColumnsToUse(List<String> columnNames) throws ImporterException {
 
-		List<Integer> result = new ArrayList<Integer>();
+		UsedColumns result = new UsedColumns();
 		
 		// The Date/Time, Latitude and Longitude are in fixed positions
-		result.add(0);
-		result.add(1);
-		result.add(2);
+		result.add("Date/Time", 0, false);
+		result.add("Longitude", 1, true);
+		result.add("Latitude", 2, true);
 		
 		int depthCol = columnNames.indexOf(COL_WATER_DEPTH);
 		if (depthCol == -1) {
 			throw new ImporterException("Cannot find water depth column");
 		}
-		result.add(depthCol);
+		result.add(COL_WATER_DEPTH, depthCol, true);
 		
 		int sstCol = columnNames.indexOf(COL_SST);
 		if (sstCol == -1) {
 			throw new ImporterException("Cannot find SST column");
 		}
-		result.add(sstCol);
+		result.add(COL_SST, sstCol, true);
 		
 		int salCol = columnNames.indexOf(COL_SALINITY);
 		if (salCol == -1) {
 			hasSalinityColumn = false;
 		} else {
 			hasSalinityColumn = true;
-			result.add(salCol);
+			result.add(COL_SALINITY, salCol, true);
 		}
 		
 		int fCo2Col = columnNames.indexOf(COL_PREFERRED_FCO2);
 		if (fCo2Col != -1) {
-			result.add(fCo2Col);
+			result.add(COL_PREFERRED_FCO2, fCo2Col, true);
 		} else {
 			fCo2Col = columnNames.indexOf(COL_FALLBACK_FCO2);
 			if (fCo2Col == -1) {
 				throw new ImporterException("Cannot find fCO2 column");
 			}
-			result.add(fCo2Col);
+			result.add(COL_FALLBACK_FCO2, fCo2Col, true);
 		}
 		
 		int pressureCol = columnNames.indexOf(COL_ATMOSPHERIC_PRESSURE);
@@ -374,14 +399,14 @@ public class SocatV3Pangaea extends PangaVistaImporter {
 			hasAtmosphericPressure = false;
 		} else {
 			hasAtmosphericPressure = true;
-			result.add(pressureCol);
+			result.add(COL_ATMOSPHERIC_PRESSURE, pressureCol, true);
 		}
 		
 		int flagCol = columnNames.indexOf(COL_WOCE_FLAG);
 		if (flagCol == -1) {
 			throw new ImporterException("Cannot find WOCE Flag column");
 		}
-		result.add(flagCol);
+		result.add(COL_WOCE_FLAG, flagCol, false);
 		
 		return result;
 	}
@@ -446,5 +471,26 @@ public class SocatV3Pangaea extends PangaVistaImporter {
 	@Override
 	public String getDocumentationUrl() throws ImporterException {
 		return evaluateXPath("Documentation URL", XPATH_DOCUMENTATION_URL);
+	}
+	
+	@Override
+	public String getQcComment() throws ImporterException {
+		String result = "";
+		
+		String comment = evaluateXPath("Comment", XPATH_COMMENT);
+		if (comment.startsWith("Cruise QC flag")) {
+			result = comment.substring(0, 17);
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public String getAbstract() throws ImporterException {
+		StringBuilder result = new StringBuilder(super.getAbstract());
+		
+		result.append(" Part of SOCAT Version 3 - A multi-decade record of high-quality surface ocean fCO2 data, doi:10.5194/essd-8-383-2016 (http://www.socat.info)");
+		
+		return result.toString();
 	}
 }

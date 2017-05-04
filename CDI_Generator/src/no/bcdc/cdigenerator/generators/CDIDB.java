@@ -37,10 +37,10 @@ public class CDIDB {
 	private static final String STORE_CDI_SUMMARY_STATEMENT = "INSERT INTO cdi_summary ("
 			+ "local_cdi_id, platform_id, dataset_name, dataset_id, doi, doi_url, "
 			+ "abstract, cruise_name, cruise_start_date, west_longitude, east_longitude, "
-			+ "south_latitude, north_latitude, start_date, end_date, distribution_data_size, "
-			+ "documentation_url, "
+			+ "south_latitude, north_latitude, start_date, end_date, min_depth, max_depth, "
+			+ "distribution_data_size, documentation_url, qc_comment, "
 		    + "curves_description, curves_name, curves_coordinates, csr_reference) "
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	/**
 	 * The database connection
@@ -166,12 +166,15 @@ public class CDIDB {
 			stmt.setDouble(13, summary.getNorthLatitude());
 			stmt.setLong(14, javaMstoMySqlMs(summary.getStartDateTime()));
 			stmt.setLong(15, javaMstoMySqlMs(summary.getEndDateTime()));
-			stmt.setString(16, summary.getDistributionDataSize());
-			stmt.setString(17, summary.getDocumentationUrl());
-			stmt.setString(18, summary.getCurvesDescription());
-			stmt.setString(19, summary.getCurvesName());
-			stmt.setString(20, summary.getCurvesCoordinates());
-			stmt.setString(21, summary.getCsrReference());
+			stmt.setDouble(16, summary.getMinDepth());
+			stmt.setDouble(17, summary.getMaxDepth());
+			stmt.setString(18, summary.getDistributionDataSize());
+			stmt.setString(19, summary.getDocumentationUrl());
+			stmt.setString(20, summary.getQcComment());
+			stmt.setString(21, summary.getCurvesDescription());
+			stmt.setString(22, summary.getCurvesName());
+			stmt.setString(23, summary.getCurvesCoordinates());
+			stmt.setString(24, summary.getCsrReference());
 			
 			stmt.execute();
 			

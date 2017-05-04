@@ -154,25 +154,8 @@
     <parameters>
       <ParameterModel>
         <conversionFormula>x*1</conversionFormula>
-        <inputDefault></inputDefault>
-        <LineFragment firstCharOffset="45" lastCharOffset="49"/>
-        <Parameter code="MBAN">
-          <fullName>Bathymetry and Elevation</fullName>
-          <unit>Metres</unit>
-          <unitCode>ULAA</unitCode>
-          <default></default>
-          <format>%05d</format>
-          <CodeP011>MBANZZZZ</CodeP011>
-          <NameP011>Sea-floor depth (below instantaneous sea level) {bathymetric depth} in the water body</NameP011>
-          <IsP011>true</IsP011>
-          <instrument></instrument>
-          <instrumentCode></instrumentCode>
-        </Parameter>
-      </ParameterModel>
-      <ParameterModel>
-        <conversionFormula>x*1</conversionFormula>
-        <inputDefault></inputDefault>
-        <LineFragment firstCharOffset="51" lastCharOffset="57"/>
+        <inputDefault>-999.999</inputDefault>
+        <LineFragment firstCharOffset="52" lastCharOffset="58"/>
         <Parameter code="TEMP">
           <fullName>Temperature of the water column</fullName>
           <unit>Degrees Celsius</unit>
@@ -188,8 +171,8 @@
       </ParameterModel>
       <ParameterModel>
         <conversionFormula>x*1</conversionFormula>
-        <inputDefault></inputDefault>
-        <LineFragment firstCharOffset="59" lastCharOffset="65"/>
+        <inputDefault>-999.999</inputDefault>
+        <LineFragment firstCharOffset="60" lastCharOffset="66"/>
         <Parameter code="PSAL">
           <fullName>Salinity of the water column</fullName>
           <unit>Dimensionless</unit>
@@ -205,9 +188,9 @@
       </ParameterModel>
       <ParameterModel>
         <conversionFormula>x*1</conversionFormula>
-        <inputDefault></inputDefault>
-        <LineFragment firstCharOffset="71" lastCharOffset="78"/>
-        <Flag firstCharOffset="81" lastCharOffset="81"/>
+        <inputDefault>-999.999</inputDefault>
+        <LineFragment firstCharOffset="72" lastCharOffset="79"/>
+        <Flag firstCharOffset="82" lastCharOffset="82"/>
         <Parameter code="PCO2">
           <fullName>Partial pressure (pCO2) and fugacity (fCO2) of carbon dioxide in the water column</fullName>
           <unit>Microatmospheres</unit>

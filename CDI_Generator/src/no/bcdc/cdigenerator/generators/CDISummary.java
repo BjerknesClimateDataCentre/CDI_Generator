@@ -269,4 +269,31 @@ public class CDISummary {
 	public String getDocumentationUrl() throws ImporterException {
 		return importer.getDocumentationUrl();
 	}
+	
+	/**
+	 * Get the QC comment for the data set
+	 * @return The QC comment
+	 * @throws ImporterException If the QC comment cannot be extracted
+	 */
+	public String getQcComment() throws ImporterException {
+		return importer.getQcComment();
+	}
+	
+	/**
+	 * Get the minimum measurement depth for the data set
+	 * @return The minimum measurement depth for the data set
+	 * @throws ImporterException If the minimum measurement depth cannot be retrieved
+	 */
+	public double getMinDepth() throws ImporterException {
+		return importer.getMinDepth();
+	}
+	
+	/**
+	 * Get the maximum measurement depth for the data set
+	 * @return The maximum measurement depth for the data set
+	 * @throws ImporterException If the maximum measurement depth cannot be retrieved
+	 */
+	public double getMaxDepth() throws ImporterException {
+		return importer.getMaxDepth();
+	}
 }

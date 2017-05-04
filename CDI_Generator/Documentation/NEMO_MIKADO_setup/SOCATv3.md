@@ -54,7 +54,11 @@ south_latitude         Metadata           `/md:MetaData/md:extent/md:geographic/
 north_latitude         Metadata           `/md:MetaData/md:extent/md:geographic/md:northBoundLongitude`
 start_date             Data               Date and time from first record *(check format)*
 end_date               Data               Date and time from last record *(check format)*
+min_depth              Metadata           `/md:MetaData/md:extent/md:elevation/md:min`
+max_depth              Metadata           `/md:MetaData/md:extent/md:elevation/md:max`
 distribution_data_size After NEMO run     Size of NEMO data file, in Mb
+documentation_url      Metadata           `/md:MetaData/md:reference[@relationType="Other version"]/md:URI`
+qc_comment             Metadata           `/md:MetaData/md:comment` - First portion of string equating to `Cruise QC flag: *x*`
 
 # MIKADO Table `cdi_fixed_values`
 Fixed values to be set for the whole data set
@@ -72,7 +76,6 @@ format_name            'ODV'
 format_version         '0.4'
 qc_name                'SOCAT QC'
 qc_date                *SOCAT Release Date*
-qc_comment             *Empty*
 
 # MIKADO Table `cdi_platforms`
 To be set up for each ship/buoy in the data set before running the CDI Generator, NEMO and MIKADO

@@ -12,6 +12,8 @@ import java.text.DecimalFormat;
  *
  */
 public class ColumnPaddingSpec {
+	
+	public static final double MISSING_VALUE = -99.999;
 
 	/**
 	 * The required total length of the column (including decimal points and signs)
@@ -52,23 +54,24 @@ public class ColumnPaddingSpec {
 	 * @return The padded value
 	 * @throws PaddingException If the padding operation failed
 	 */
-	public String pad(String value) throws PaddingException {
+	public String pad(String value, boolean numeric) throws PaddingException {
 		
 		String result;
 		
-		boolean isNumeric = true;
-		double numericValue = 0.0;
-		
-		try {
-			numericValue = Double.parseDouble(value);
-		} catch (NumberFormatException e) {
-			isNumeric = false;
-		}
-		
-		if (!isNumeric) {
-			result = padString(value);
-		} else {
+		if (numeric) {
+			double numericValue = MISSING_VALUE;
+			
+			if (value.length() > 0) {
+				try {
+					numericValue = Double.parseDouble(value);
+				} catch (NumberFormatException e) {
+					throw new PaddingException("Non-numeric value in numeric field");
+				}
+			}
+			
 			result = formatter.format(numericValue);
+		} else {
+			result = padString(value);
 		}
 		
 		return result;
